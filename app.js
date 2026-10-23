@@ -1,6 +1,6 @@
 /**
  * app.js
- * Main Application Logic for "My Journal — 조각 모음"
+ * Main Application Logic for "My Memory"
  * Compatible with both direct file:// execution and https:// (GitHub Pages / PWA)
  */
 
@@ -119,215 +119,16 @@
   }
 
   function getInitialSeedPieces() {
-    return [
-      {
-        id: "seed-1",
-        category: "routine",
-        date: "2026-10-09",
-        subtype: "Try",
-        title: "글쓰기는 군더더기를 지우고 과감히 끝내기",
-        content:
-          "문장을 길게 늘어뜨리지 말고 핵심만 남긴 채 마침표를 찍는 연습. 수식어를 덜어낼수록 전달하고자 하는 생각의 밀도가 높아진다.",
-        source: "",
-        tags: ["글쓰기", "미니멀"],
-        images: [],
-        bookmarked: true,
-        createdAt: "2026-10-09T08:10:00.000Z",
-        updatedAt: "2026-10-09T08:10:00.000Z",
-      },
-      {
-        id: "seed-2",
-        category: "routine",
-        date: "2026-10-02",
-        subtype: "Mirror",
-        title: "7시 기상은 모닝 루틴과 마음의 여유를 무너뜨린다",
-        content:
-          "조금만 늦게 일어나도 아침의 고요한 루틴이 급해지고 하루 전체의 리듬이 흔들린다. 최소 6시 20분에는 눈을 뜨고 스트레칭으로 시작하자.",
-        source: "",
-        tags: ["기상시간", "모닝루틴"],
-        images: [],
-        bookmarked: false,
-        createdAt: "2026-10-02T07:30:00.000Z",
-        updatedAt: "2026-10-02T07:30:00.000Z",
-      },
-      {
-        id: "seed-3",
-        category: "routine",
-        date: "2026-09-18",
-        subtype: "Mirror",
-        title: "물 섭취 부족과 목 텁텁함",
-        content:
-          "오후에 집중하다 보면 커피만 마시고 순수한 물 섭취량이 턱없이 부족해진다. 책상 위에 항상 텀블러를 눈에 보이게 두기.",
-        source: "",
-        tags: ["건강", "수분섭취"],
-        images: [],
-        bookmarked: false,
-        createdAt: "2026-09-18T15:20:00.000Z",
-        updatedAt: "2026-09-18T15:20:00.000Z",
-      },
-      {
-        id: "seed-4",
-        category: "routine",
-        date: "2026-09-11",
-        subtype: "Try",
-        title: "11시 취침 패턴 만들기 다짐",
-        content:
-          "밤 10시 30분부터는 스마트폰을 멀리 두고 조명을 낮춘다. 수면의 질이 곧 다음 날의 에너지와 직결된다.",
-        source: "",
-        tags: ["수면", "디지털디톡스"],
-        images: [],
-        bookmarked: true,
-        createdAt: "2026-09-11T22:40:00.000Z",
-        updatedAt: "2026-09-11T22:40:00.000Z",
-      },
-      {
-        id: "seed-5",
-        category: "routine",
-        date: "2026-08-26",
-        subtype: "Mirror",
-        title: "안연고 없이 자기 2일차 - 눈 상태 체크",
-        content:
-          "자기 전 온찜질을 5분 해주고 눈을 깜빡이는 의식적인 휴식을 취했더니 아침 건조함이 한결 덜했다.",
-        source: "",
-        tags: ["눈건강", "기록"],
-        images: [],
-        bookmarked: false,
-        createdAt: "2026-08-26T23:00:00.000Z",
-        updatedAt: "2026-08-26T23:00:00.000Z",
-      },
-      {
-        id: "seed-6",
-        category: "todo",
-        date: getTodayStr(),
-        subtype: "Try",
-        title: "개인 기록용 조각 모음 앱 GitHub 업로드 및 안드로이드 홈화면 추가",
-        content:
-          "카테고리별로 하루의 정보와 생각을 빠르게 기록하고, 중요한 글은 북마크로 모아볼 수 있도록 워크플로우 정리하기.",
-        source: "",
-        tags: ["프로젝트", "바이브코딩"],
-        images: [],
-        bookmarked: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-7",
-        category: "info",
-        date: getTodayStr(),
-        subtype: "Learned",
-        title: "Mobbin 미니멀 갤러리 디자인 시스템 핵심 노트",
-        content:
-          "그림자를 쓰는 대신 화이트(#ffffff)와 6% 틴트 소프트 캔버스(#f3f3f3), 1px 헤어라인(#e0e0e0)만으로 깊이감을 만들고 모든 인터랙션 요소는 알약(Pill) 형태를 유지한다.",
-        source: "DESIGN-mobbin.md",
-        tags: ["UI디자인", "레퍼런스"],
-        images: [],
-        bookmarked: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-8",
-        category: "thought",
-        date: getTodayStr(),
-        subtype: "Mirror",
-        title: "수집한 정보가 내 것이 되려면 한 줄이라도 내 언어로 적어야 한다",
-        content:
-          "단순히 스크랩만 해둔 정보는 금방 휘발되지만, 왜 이 정보가 눈에 들어왔는지 한 줄의 생각을 덧붙이면 언제든 꺼내 쓸 수 있는 나만의 자산이 된다.",
-        source: "",
-        tags: ["기록법", "생각정리"],
-        images: [],
-        bookmarked: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-9",
-        category: "happiness",
-        date: getTodayStr(),
-        subtype: "Mirror",
-        title: "선선한 바람 불 때 마신 따뜻한 드립 커피 한 잔",
-        content:
-          "복잡한 일정을 시작하기 전 10분 동안 창밖을 보며 커피 향을 음미한 순간이 오늘 하루의 기분을 단정하게 잡아주었다.",
-        source: "",
-        tags: ["일상", "감사"],
-        images: [],
-        bookmarked: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-10",
-        category: "transcription",
-        date: getTodayStr(),
-        subtype: "Quote",
-        title: "우리가 매일 반복하는 것이 곧 우리 자신이다.",
-        content:
-          "탁월함이란 단일한 행위가 아니라 습관이다. 하루에 하나씩 쌓아 올린 작은 문장과 생각의 조각들이 결국 삶의 결을 만든다.",
-        source: "아리스토텔레스 / 니코마코스 윤리학",
-        tags: ["필사", "문장수집"],
-        images: [],
-        bookmarked: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "seed-11",
-        category: "diary",
-        date: getTodayStr(),
-        subtype: "Mirror",
-        title: "나만의 아카이브 공간을 직접 만들어가며 느낀 즐거움",
-        content:
-          "하루 동안 스쳐 지나가는 수많은 정보와 감정, 해야 할 일들을 한곳에 차분하게 모아둘 수 있는 바인더 같은 공간이 생겼다. 매일 조금씩 채워나가야지.",
-        source: "",
-        tags: ["일기", "기록"],
-        images: [],
-        bookmarked: false,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      },
-    ];
+    return [];
   }
 
   function getInitialSeedChecklists() {
-    return [
-      {
-        id: "chk-1",
-        category: "routine",
-        date: getTodayStr(),
-        text: "글쓰기: 지우고 과감히 끝내기",
-        done: false,
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "chk-2",
-        category: "routine",
-        date: getTodayStr(),
-        text: "오늘부터 11시 취침",
-        done: false,
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "chk-3",
-        category: "todo",
-        date: getTodayStr(),
-        text: "중요한 조각글 북마크 테스트해보기",
-        done: false,
-        updatedAt: new Date().toISOString(),
-      },
-      {
-        id: "chk-4",
-        category: "todo",
-        date: getTodayStr(),
-        text: "오늘 수집한 정보 1건 이상 기록하기",
-        done: true,
-        updatedAt: new Date().toISOString(),
-      },
-    ];
+    return [];
   }
 
   const state = {
-    activeCategory: "routine",
-    selectedDate: null,
+    activeCategory: "calendar",
+    selectedDate: getTodayStr(),
     calendarYear: new Date().getFullYear(),
     calendarMonth: new Date().getMonth(),
     calendarFolded: false,
@@ -357,17 +158,33 @@
   });
 
   function loadInitialData() {
+    const SEED_CHECK_IDS = new Set(["chk-1", "chk-2", "chk-3", "chk-4"]);
+
     let storedPieces = syncManager.getLocalPieces();
-    if (!storedPieces || !Array.isArray(storedPieces) || storedPieces.length === 0) {
+    if (!storedPieces || !Array.isArray(storedPieces)) {
       storedPieces = getInitialSeedPieces();
-      syncManager.saveLocalPieces(storedPieces);
+    } else {
+      const cleanedPieces = storedPieces.filter(
+        (p) => p && !String(p.id || "").startsWith("seed-")
+      );
+      if (cleanedPieces.length !== storedPieces.length) {
+        storedPieces = cleanedPieces;
+        syncManager.saveLocalPieces(storedPieces);
+      }
     }
     state.pieces = storedPieces;
 
     let storedChecks = syncManager.getLocalChecklists();
-    if (!storedChecks || !Array.isArray(storedChecks) || storedChecks.length === 0) {
+    if (!storedChecks || !Array.isArray(storedChecks)) {
       storedChecks = getInitialSeedChecklists();
-      syncManager.saveLocalChecklists(storedChecks);
+    } else {
+      const cleanedChecks = storedChecks.filter(
+        (c) => c && !SEED_CHECK_IDS.has(String(c.id || ""))
+      );
+      if (cleanedChecks.length !== storedChecks.length) {
+        storedChecks = cleanedChecks;
+        syncManager.saveLocalChecklists(storedChecks);
+      }
     }
     state.checklists = storedChecks;
   }
@@ -1778,7 +1595,8 @@
     });
 
     document.getElementById("brandHomeBtn")?.addEventListener("click", () => {
-      state.selectedDate = null;
+      state.activeCategory = "calendar";
+      state.selectedDate = getTodayStr();
       state.bookmarkOnly = false;
       state.activeSubtype = "ALL";
       state.searchQuery = "";
@@ -1909,7 +1727,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `my-journal-backup-${getTodayStr()}.json`;
+      a.download = `my-memory-backup-${getTodayStr()}.json`;
       a.click();
       URL.revokeObjectURL(url);
       showToast("💾 백업 파일(.json)을 다운로드했습니다.");
