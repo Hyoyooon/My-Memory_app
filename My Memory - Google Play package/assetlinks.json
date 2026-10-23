@@ -1,8 +1,0 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "SweetHomeKeeper.Remember",
-        "sha256_cert_fingerprints": ["8A:56:04:1F:7F:A8:6C:E2:52:E0:81:02:FB:B7:5A:70:EF:92:07:D4:CE:95:F6:4D:B3:50:A4:50:16:2B:06:DD"]
-      }
-    }]
