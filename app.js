@@ -636,13 +636,6 @@
     const doneCount = catChecks.filter((c) => c.done).length;
     const totalCount = catChecks.length;
 
-    const ratio = totalCount > 0 ? doneCount / totalCount : 0;
-    let stageIdx = 0;
-    if (ratio >= 1 && totalCount > 0) stageIdx = 3;
-    else if (ratio >= 0.5) stageIdx = 2;
-    else if (doneCount > 0 || totalCount > 0) stageIdx = 1;
-    const sproutEmoji = catMeta.sproutStages[stageIdx] || "🌱";
-
     return `
       <section class="top-widget-section">
         <div class="widget-row">
@@ -676,16 +669,6 @@
                 placeholder="+ ${catMeta.placeholder}"
               />
             </div>
-          </div>
-
-          <div class="sprout-card" id="sproutWidgetBtn" title="달성도에 따라 아이콘이 자라납니다">
-            <div class="sprout-emoji">${sproutEmoji}</div>
-            <div class="sprout-caption">${totalCount === 0
-        ? "실천 추가"
-        : doneCount === totalCount
-          ? "달성 완료!"
-          : `${Math.round(ratio * 100)}% 달성`
-      }</div>
           </div>
         </div>
       </section>

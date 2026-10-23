@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-memory-pwa-v1";
+const CACHE_NAME = "my-memory-pwa-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -32,15 +32,21 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return (
-        cached ||
-        fetch(event.request).catch(() => {
+    fetch(event.request)
+      .then((networkRes) => {
+        const resClone = networkRes.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, resClone);
+        });
+        return networkRes;
+      })
+      .catch(() =>
+        caches.match(event.request).then((cached) => {
+          if (cached) return cached;
           if (event.request.mode === "navigate") {
             return caches.match("./index.html");
           }
         })
-      );
-    })
+      )
   );
 });
