@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#f3f3f3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>My Memory — 조각 모음</title>
+
+  <!-- PWA Manifest & Icon -->
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+
+  <!-- Pretendard Variable & Inter Fonts (Saans Variable Substitute per DESIGN-mobbin.md) -->
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Supabase JS Client for Real-time Multi-device Cloud Sync -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+  <div class="app-viewport">
+    <div class="app-shell">
+      <!-- 1. Top Header Bar (Matches reference photo + Mobbin stadium pills) -->
+      <header class="top-header">
+        <div class="brand-lockup" id="brandHomeBtn" title="필터 초기화 및 홈으로">
+          <svg class="brand-home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z" />
+          </svg>
+          <span class="brand-title">My Memory</span>
+          <span class="brand-chevron">⌄</span>
+          <span class="user-badge" title="나의 기록장">나</span>
+        </div>
+
+        <div class="header-actions">
+          <button type="button" class="pill-btn" id="headerSearchToggle" title="통합 검색">
+            🔍 검색
+          </button>
+          <button type="button" class="pill-btn" id="headerBookmarkToggle" title="중요 북마크 모아보기">
+            🔖 북마크 <span>0</span>
+          </button>
+          <button type="button" class="pill-btn" id="headerCloudBtn" title="클라우드 DB 동기화 및 백업 설정">
+            <span class="sync-dot" id="syncStatusDot"></span>
+            <span id="syncStatusLabel">동기화</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Expandable Search Drawer -->
+      <div class="search-bar-wrap" id="searchBarDrawer">
+        <input type="search" id="globalSearchInput" class="mobbin-input" placeholder="제목, 내용, 출처, #태그로 조각 검색..." />
+      </div>
+
+      <!-- 2. Workspace Body: Left Vertical Binder Tabs + Right Main Sheet -->
+      <div class="workspace-body">
+        <!-- Left Vertical Index Tabs (달력, 생활 루틴, 해야할 일, 정보, 생각, 행복, 필사, 일기) -->
+        <nav class="binder-tabs" id="binderTabsList" aria-label="카테고리 탭"></nav>
+
+        <!-- Main Connected Content Sheet -->
+        <main class="main-sheet">
+          <div class="sheet-scroll" id="sheetScrollArea"></div>
+
+          <!-- Floating Bottom Bar: Date Indicator + Quick Write CTA -->
+          <div class="floating-bottom-bar">
+            <button type="button" class="floating-date-pill" id="floatingDatePill" title="달력에서 날짜별로 모아보기">
+              <span id="floatingDateText">📅 전체 날짜</span>
+            </button>
+            <button type="button" class="floating-write-btn" id="floatingWriteBtn">
+              <span>✎</span>
+              <span>+ 기록</span>
+            </button>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal 1: Write / Edit Piece + Image Upload
+       ====================================================================== -->
+  <div class="modal-backdrop" id="writeModalBackdrop" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title" id="writeModalTitle">새로운 조각 기록</h2>
+        <button type="button" class="modal-close-btn" id="closeWriteModalBtn" aria-label="닫기">✕</button>
+      </div>
+
+      <form id="writePieceForm" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="pieceCategoryInput">카테고리</label>
+            <select id="pieceCategoryInput" class="field-select"></select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pieceDateInput">날짜</label>
+            <input type="date" id="pieceDateInput" class="field-input" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pieceTitleInput">핵심 한 줄 제목</label>
+          <input type="text" id="pieceTitleInput" class="field-input" placeholder="예: 글쓰기는 군더더기를 지우고 과감히 끝내기" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="pieceContentInput">내용 / 상세 메모</label>
+          <textarea id="pieceContentInput" class="field-textarea"
+            placeholder="수집한 정보, 떠오른 생각, 필사 문장, 오늘의 일기를 자유롭게 적어보세요."></textarea>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="form-group">
+          <label class="form-label">사진 / 이미지 첨부 (클릭, 드래그, 또는 붙여넣기)</label>
+          <div class="image-upload-zone" id="imageUploadDropzone">
+            <div class="image-upload-zone-title">📷 사진 추가하기</div>
+            <div class="image-upload-zone-sub">모바일 카메라 촬영·갤러리 선택 및 클립보드 붙여넣기 지원</div>
+            <input type="file" id="pieceImageFileInput" accept="image/*" multiple style="display:none;" />
+          </div>
+          <div class="upload-preview-grid" id="uploadPreviewGrid"></div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="pieceSourceInput">출처 / 책·링크 (선택)</label>
+            <input type="text" id="pieceSourceInput" class="field-input" placeholder="책 제목, 저자, URL 등" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="pieceTagsInput">태그 (쉼표로 구분)</label>
+            <input type="text" id="pieceTagsInput" class="field-input" placeholder="루틴, 독서, 아이디어" />
+          </div>
+        </div>
+
+        <label
+          style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer; user-select:none; padding:4px 0;">
+          <input type="checkbox" id="pieceBookmarkCheck" style="width:16px; height:16px; accent-color:var(--ink);" />
+          <span>🔖 북마크 표시</span>
+        </label>
+
+        <div class="modal-footer">
+          <button type="button" class="pill-btn btn-lg" id="cancelWriteModalBtn">취소</button>
+          <button type="submit" class="pill-btn pill-btn-primary btn-lg">저장하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal 2: Piece Detail View (Read / Edit / Delete / Full Images)
+       ====================================================================== -->
+  <div class="modal-backdrop" id="detailModalBackdrop" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span style="font-size:13px; font-weight:600; color:var(--text-muted);">조각 상세보기</span>
+        <button type="button" class="modal-close-btn" id="closeDetailModalBtn" aria-label="닫기">✕</button>
+      </div>
+
+      <div id="detailModalBody" style="display:flex; flex-direction:column; gap:12px;"></div>
+
+      <div class="modal-footer" style="margin-top:10px; border-top:1px solid var(--hairline); padding-top:14px;">
+        <button type="button" class="pill-btn" id="detailDeleteBtn" style="color:#c93b2b;">
+          삭제
+        </button>
+        <div class="modal-footer-right">
+          <button type="button" class="pill-btn pill-btn-primary" id="detailEditBtn">
+            ✎ 수정하기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal 3: Cloud Sync (Supabase) & JSON Backup Settings
+       ====================================================================== -->
+  <div class="modal-backdrop" id="cloudModalBackdrop" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">클라우드 동기화 & 백업.</h2>
+        <button type="button" class="modal-close-btn" id="closeCloudModalBtn" aria-label="닫기">✕</button>
+      </div>
+
+      <p style="font-size:13px; color:var(--text-muted); line-height:1.45;">
+        기본적으로 모든 글과 사진은 기기 내부에 즉시 자동 저장됩니다. 안드로이드 폰과 PC 간 실시간 동기화를 원하시면 무료 <strong>Supabase</strong> 프로젝트의 URL과 Anon
+        Key를 입력해주세요.
+      </p>
+
+      <div class="form-group">
+        <label class="form-label" for="supabaseUrlInput">Supabase Project URL</label>
+        <input type="url" id="supabaseUrlInput" class="field-input" placeholder="https://xxxx.supabase.co" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="supabaseKeyInput">Supabase Anon Public Key</label>
+        <input type="password" id="supabaseKeyInput" class="field-input" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI..." />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="workspaceIdInput">동기화 워크스페이스 이름 (기기 간 동일하게 입력)</label>
+        <input type="text" id="workspaceIdInput" class="field-input" placeholder="personal-default" />
+      </div>
+
+      <button type="button" class="pill-btn pill-btn-primary btn-lg" id="saveCloudConfigBtn" style="width:100%;">
+        ☁️ 클라우드 연결 및 즉시 동기화
+      </button>
+
+      <details
+        style="background-color:var(--canvas-soft); padding:10px 12px; border-radius:var(--rounded-sm); font-size:12px;">
+        <summary style="font-weight:600; cursor:pointer;">Supabase 초기 테이블 생성 SQL 보기</summary>
+        <div style="margin-top:8px; display:flex; flex-direction:column; gap:6px;">
+          <div class="sql-code-box" id="sqlSetupBox"></div>
+          <button type="button" class="pill-btn" id="copySqlBtn" style="align-self:flex-end;">
+            📋 SQL 복사하기
+          </button>
+        </div>
+      </details>
+
+      <div
+        style="border-top:1px solid var(--hairline); padding-top:12px; display:flex; flex-direction:column; gap:8px;">
+        <span class="form-label">파일로 백업 / 복원 (GitHub 및 로컬 보관용)</span>
+        <div class="form-row-2">
+          <button type="button" class="pill-btn" id="exportJsonBtn" style="height:38px;">
+            💾 JSON 백업 내보내기
+          </button>
+          <button type="button" class="pill-btn" id="importJsonBtn" style="height:38px;">
+            📂 백업 파일 불러오기
+          </button>
+          <input type="file" id="importJsonFileInput" accept=".json,application/json" style="display:none;" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="mobbin-toast" id="mobbinToast" role="status" aria-live="polite"></div>
+
+  <!-- Main App Scripts (Compatible with both direct file:// and https://) -->
+  <script src="./cloud-sync.js"></script>
+  <script src="./app.js"></script>
+
+  <!-- Register Service Worker for Android PWA Offline & Home Screen Install -->
+  <script>
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(() => { });
+      });
+    }
+  </script>
+</body>
+
+</html>

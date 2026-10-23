@@ -1,0 +1,18 @@
+{
+  "name": "My Journal — 하루 조각 모음",
+  "short_name": "My Journal",
+  "description": "하루에 수집하는 여러 정보, 루틴, 생각, 필사, 일기를 날짜와 카테고리별로 정리하는 바인더 앱",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f3f3",
+  "theme_color": "#f3f3f3",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

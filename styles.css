@@ -1,0 +1,1926 @@
+/* ==========================================================================
+   My Memory — Mobbin Design System + Vertical Binder Index UI
+   Based on DESIGN-mobbin.md tokens & reference mobile layout
+   ========================================================================== */
+
+:root {
+  /* Mobbin Color Palette */
+  --primary: #141414;
+  --on-primary: #ffffff;
+  --ink: #141414;
+  --ink-soft: #262626;
+  --text-muted: #707070;
+  --text-faint: #adadad;
+  --canvas: #ffffff;
+  --canvas-soft: #f3f3f3;
+  --field: #f0f0f0;
+  --hairline-soft: #f0f0f0;
+  --hairline: #e0e0e0;
+  --accent: #0066ff;
+
+  /* Subtle semantic dot indicators (kept understated for monochrome gallery feel) */
+  --dot-try: #d9826c;
+  --dot-mirror: #b8c99d;
+  --dot-learned: #8fb8d6;
+  --dot-quote: #d9b87c;
+
+  /* Mobbin Border Radius Scale */
+  --rounded-none: 0px;
+  --rounded-xs: 10px;
+  --rounded-sm: 16px;
+  --rounded-md: 24px;
+  --rounded-full: 9999px;
+
+  /* Mobbin Spacing System (8px base unit) */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  /* Typography - Saans / Inter / Pretendard Variable */
+  --font-sans: "Pretendard Variable", Pretendard, "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+
+  /* Safe area for mobile PWA */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: var(--canvas-soft);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 456;
+  line-height: 1.38;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* App Shell — Centered mobile-first frame on desktop, full-bleed on mobile */
+.app-viewport {
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-color: var(--canvas-soft);
+}
+
+.app-shell {
+  width: 100%;
+  max-width: 520px;
+  height: 100dvh;
+  background-color: var(--canvas-soft);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  border-left: 1px solid var(--hairline);
+  border-right: 1px solid var(--hairline);
+}
+
+@media (max-width: 520px) {
+  .app-shell {
+    border-left: none;
+    border-right: none;
+  }
+}
+
+/* ==========================================================================
+   1. Top Header Bar (Matches reference photo top bar + Mobbin pills)
+   ========================================================================== */
+.top-header {
+  padding: calc(var(--safe-top) + 10px) 12px 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background-color: var(--canvas-soft);
+  z-index: 20;
+  flex-shrink: 0;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: var(--rounded-full);
+  transition: background-color 0.15s ease;
+  min-width: 0;
+}
+
+.brand-lockup:hover {
+  background-color: var(--field);
+}
+
+.brand-home-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-size: 15px;
+  font-weight: 652;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-chevron {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.user-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--rounded-full);
+  background-color: var(--ink);
+  color: var(--on-primary);
+  font-size: 11px;
+  font-weight: 652;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--rounded-full);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid var(--hairline);
+  background-color: var(--canvas);
+  color: var(--ink);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.pill-btn:hover {
+  background-color: var(--field);
+}
+
+.pill-btn.active {
+  background-color: var(--ink);
+  color: var(--on-primary);
+  border-color: var(--ink);
+}
+
+.pill-btn-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
+.pill-btn-primary:hover {
+  background-color: var(--ink-soft);
+}
+
+.sync-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--rounded-full);
+  background-color: var(--text-faint);
+  display: inline-block;
+}
+
+.sync-dot.online {
+  background-color: var(--accent);
+}
+
+/* Search Bar Drawer */
+.search-bar-wrap {
+  padding: 0 12px 10px 12px;
+  background-color: var(--canvas-soft);
+  display: none;
+  gap: 8px;
+  align-items: center;
+}
+
+.search-bar-wrap.open {
+  display: flex;
+}
+
+.mobbin-input {
+  width: 100%;
+  background-color: var(--canvas);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  padding: 8px 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 456;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.mobbin-input:focus {
+  border: 2px solid var(--ink);
+  padding: 7px 13px;
+}
+
+.mobbin-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* ==========================================================================
+   2. Workspace Body: Left Vertical Binder Tabs + Main Sheet Container
+   ========================================================================== */
+.workspace-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  padding: 0 8px calc(var(--safe-bottom) + 8px) 6px;
+  position: relative;
+}
+
+/* Left Vertical Index Tab Strip */
+.binder-tabs {
+  width: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  padding-bottom: 12px;
+  z-index: 10;
+  overflow-y: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  transition: width 0.2s ease;
+}
+
+.binder-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.binder-tabs.collapsed {
+  width: 32px;
+}
+
+.binder-tabs.collapsed .tab-label {
+  display: none;
+}
+
+.binder-collapse-btn {
+  width: 30px;
+  height: 28px;
+  margin-left: 4px;
+  border-radius: var(--rounded-xs);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.binder-collapse-btn:hover {
+  background-color: var(--field);
+  color: var(--ink);
+}
+
+.binder-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  margin-left: 2px;
+  border: 1px solid transparent;
+  border-right: none;
+  border-radius: 12px 0 0 12px;
+  background-color: rgba(255, 255, 255, 0.55);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.binder-tab:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+}
+
+/* Active tab seamlessly merges into the white main sheet */
+.binder-tab.active {
+  background-color: var(--canvas);
+  color: var(--ink);
+  border-color: var(--hairline);
+  margin-left: 0;
+  padding-right: 6px;
+  margin-right: -1px;
+  z-index: 12;
+}
+
+/* Squircle icon badge inside tab */
+.tab-icon-squircle {
+  width: 22px;
+  height: 22px;
+  border-radius: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+  background-color: var(--canvas-soft);
+}
+
+.binder-tab.active .tab-icon-squircle {
+  background-color: var(--ink);
+  color: var(--on-primary);
+}
+
+.tab-label {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.tab-count-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--rounded-full);
+  background-color: var(--accent);
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* ==========================================================================
+   3. Main Sheet Container (Connected to active tab)
+   ========================================================================== */
+.main-sheet {
+  flex: 1;
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-md);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.sheet-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 14px 96px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sheet-scroll>* {
+  flex-shrink: 0;
+}
+
+.sheet-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sheet-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--hairline);
+  border-radius: var(--rounded-full);
+}
+
+/* ==========================================================================
+   4. Top Widget Area & Routine Sticky Note Stack
+   ========================================================================== */
+.top-widget-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Sticky Note Pad for '루틴' Category (inspired by inspora sticky-note-app) */
+.sticky-pad-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  user-select: none;
+}
+
+.sticky-pad-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.sticky-pad-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sticky-pad-title {
+  font-size: 13px;
+  font-weight: 652;
+  color: var(--ink);
+}
+
+.sticky-pad-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: var(--canvas-soft);
+  padding: 2px 8px;
+  border-radius: var(--rounded-full);
+}
+
+.sticky-pad-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sticky-stack-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  perspective: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sticky-note-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: #fff6b3;
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  border-radius: 20px 20px 26px 20px;
+  padding: 20px 20px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: grab;
+  touch-action: none;
+  transform-origin: 50% 18px;
+  will-change: transform, opacity;
+  transition: transform 0.34s cubic-bezier(0.22, 1.2, 0.36, 1), opacity 0.28s ease;
+  overflow: visible;
+}
+
+.sticky-note-card:active {
+  cursor: grabbing;
+}
+
+/* 6 Pastel Sticky Note Color Themes (연노랑, 연파랑, 연빨강, 연녹색, 연분홍, 연보라) */
+.sticky-note-card.sticky-color-yellow {
+  background-color: #fff6b3;
+  border-color: #ebd978;
+}
+
+.sticky-note-card.sticky-color-blue {
+  background-color: #d9eeff;
+  border-color: #a8d4fa;
+}
+
+.sticky-note-card.sticky-color-red {
+  background-color: #ffdede;
+  border-color: #f5b5b5;
+}
+
+.sticky-note-card.sticky-color-green {
+  background-color: #dcf7e1;
+  border-color: #abdfb6;
+}
+
+.sticky-note-card.sticky-color-pink {
+  background-color: #ffe0f0;
+  border-color: #f5b5d6;
+}
+
+.sticky-note-card.sticky-color-purple {
+  background-color: #ece0ff;
+  border-color: #cab3f5;
+}
+
+/* Top adhesive strip crease on sticky note */
+.sticky-note-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  border-radius: 20px 20px 0 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 100%);
+  border-bottom: 1px dashed rgba(20, 20, 20, 0.08);
+  pointer-events: none;
+}
+
+/* Folded corner accent at bottom-right */
+.sticky-note-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, transparent 50%, rgba(20, 20, 20, 0.07) 50%);
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 24px;
+  pointer-events: none;
+}
+
+/* 3D Pushpin / Thumbtack at top-center of sticky note */
+.sticky-pushpin {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34px;
+  height: 38px;
+  z-index: 12;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sticky-note-card:active .sticky-pushpin {
+  transform: translateX(-50%) scale(1.08) translateY(-2px);
+}
+
+.sticky-pushpin-svg {
+  width: 34px;
+  height: 38px;
+  overflow: visible;
+}
+
+/* Back cards in the stack (keep their own assigned pastel colors!) */
+.sticky-note-card.stack-pos-1 {
+  z-index: 2;
+  transform: translateY(8px) scale(0.96) rotate(2.2deg);
+  pointer-events: none;
+  opacity: 0.94;
+}
+
+.sticky-note-card.stack-pos-2 {
+  z-index: 1;
+  transform: translateY(15px) scale(0.92) rotate(-2deg);
+  pointer-events: none;
+  opacity: 0.88;
+}
+
+.sticky-note-card.stack-pos-0 {
+  z-index: 5;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+/* Pull-down completion indicator banner inside active sticky note */
+.sticky-pull-banner {
+  position: absolute;
+  top: 28px;
+  left: 16px;
+  right: 16px;
+  height: 34px;
+  border-radius: var(--rounded-full);
+  background-color: var(--ink);
+  color: var(--on-primary);
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transition: opacity 0.15s ease, transform 0.15s ease, background-color 0.15s ease;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.sticky-pull-banner.ready {
+  background-color: var(--accent);
+}
+
+.sticky-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(20, 20, 20, 0.62);
+  margin-top: 6px;
+  position: relative;
+  z-index: 6;
+}
+
+.sticky-nav-arrows {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sticky-arrow-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--rounded-full);
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  background-color: rgba(255, 255, 255, 0.72);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 652;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.sticky-arrow-btn:hover {
+  background-color: #ffffff;
+  transform: scale(1.08);
+}
+
+.sticky-body-text {
+  font-size: 22px;
+  font-weight: 652;
+  line-height: 1.38;
+  color: var(--ink);
+  text-align: center;
+  padding: 12px 10px;
+  word-break: keep-all;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.sticky-footer-hints {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(20, 20, 20, 0.48);
+  padding-right: 16px;
+}
+
+.sticky-add-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--canvas-soft);
+  padding: 6px 12px;
+  border-radius: var(--rounded-full);
+}
+
+.sticky-add-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 456;
+  color: var(--ink);
+  outline: none;
+}
+
+.sticky-add-input::placeholder {
+  color: var(--text-faint);
+}
+
+.sticky-done-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.sticky-done-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--canvas-soft);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--rounded-full);
+  text-decoration: line-through;
+  cursor: pointer;
+}
+
+.sticky-done-chip:hover {
+  color: var(--ink);
+}
+
+.widget-row {
+  display: grid;
+  grid-template-columns: 1fr 104px;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.try-card {
+  background-color: var(--canvas-soft);
+  border-radius: var(--rounded-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.try-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.try-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--rounded-full);
+  background-color: var(--dot-try);
+  display: inline-block;
+}
+
+.try-title {
+  font-size: 13px;
+  font-weight: 652;
+  color: var(--ink);
+}
+
+.try-counter {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.try-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  list-style: none;
+}
+
+.try-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+
+.try-checkbox {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--rounded-full);
+  border: 1.5px solid var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+  color: transparent;
+  transition: all 0.15s ease;
+}
+
+.try-item.done .try-checkbox {
+  background-color: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-primary);
+}
+
+.try-item.done .try-item-text {
+  text-decoration: line-through;
+  color: var(--text-faint);
+}
+
+.try-item-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.try-add-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.try-add-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--hairline);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--ink);
+  padding: 2px 0;
+  outline: none;
+}
+
+.try-add-input::placeholder {
+  color: var(--text-faint);
+}
+
+/* Right Sprout / Category Status Square Card */
+.sprout-card {
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.sprout-card:hover {
+  background-color: var(--canvas-soft);
+}
+
+.sprout-emoji {
+  font-size: 28px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.sprout-card:active .sprout-emoji {
+  transform: scale(1.18);
+}
+
+.sprout-caption {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Segmented Ratio Bar & Sub-tag Filter Pills (Quote / Learned / Mirror / Try) */
+.ratio-bar {
+  height: 5px;
+  width: 100%;
+  background-color: var(--field);
+  border-radius: var(--rounded-full);
+  display: flex;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.ratio-segment {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.subtag-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.subtag-pills-row::-webkit-scrollbar {
+  display: none;
+}
+
+.subtag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: var(--rounded-full);
+  background-color: var(--canvas-soft);
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.subtag-pill:hover {
+  color: var(--ink);
+}
+
+.subtag-pill.active {
+  background-color: var(--ink);
+  color: var(--on-primary);
+}
+
+.subtag-count {
+  font-weight: 652;
+  color: var(--ink);
+}
+
+.subtag-pill.active .subtag-count {
+  color: var(--on-primary);
+}
+
+/* ==========================================================================
+   5. Calendar View (Shown in '달력' tab or when date picker is expanded)
+   ========================================================================== */
+.calendar-panel {
+  background-color: var(--canvas-soft);
+  border-radius: var(--rounded-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  perspective: 900px;
+  flex-shrink: 0;
+  transition: padding 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-month-title {
+  font-size: 18px;
+  font-weight: 652;
+  color: var(--ink);
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+}
+
+.calendar-month-title.anim-prev {
+  animation: calTitleSlidePrev 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.calendar-month-title.anim-next {
+  animation: calTitleSlideNext 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.calendar-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cal-nav-btn {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--rounded-full);
+  border: 1px solid var(--hairline);
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s ease;
+}
+
+.cal-nav-btn:hover {
+  background-color: var(--field);
+  transform: scale(1.06);
+}
+
+.cal-nav-btn:active {
+  transform: scale(0.92);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.calendar-weekdays .weekday-sun {
+  color: #e03131;
+}
+
+.calendar-weekdays .weekday-sat {
+  color: #0066ff;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.calendar-grid.flip-prev {
+  animation: calGridFlipPrev 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.calendar-grid.flip-next {
+  animation: calGridFlipNext 0.44s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.calendar-grid.fold-anim {
+  animation: calGridFoldMorph 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cal-day {
+  aspect-ratio: 1 / 1.05;
+  min-height: 44px;
+  border-radius: 12px;
+  background-color: var(--canvas);
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  position: relative;
+  z-index: 1;
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-color 0.18s ease,
+    background-color 0.2s ease,
+    color 0.18s ease;
+}
+
+.cal-day>span,
+.cal-day>.cal-dots {
+  position: relative;
+  z-index: 2;
+}
+
+/* Gliding morphing selection highlight background */
+.cal-glide-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background-color: var(--ink);
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cal-day.day-sun {
+  color: #e03131;
+}
+
+.cal-day.day-sat {
+  color: #0066ff;
+}
+
+.cal-day:not(.other-month):hover {
+  border-color: var(--ink);
+  transform: translateY(-2px) scale(1.06);
+  z-index: 3;
+}
+
+.cal-day:not(.other-month):active {
+  transform: scale(0.9);
+}
+
+.cal-day.other-month {
+  opacity: 0.32;
+}
+
+.cal-day.today {
+  border-color: var(--accent);
+}
+
+.cal-day.today:not(.day-sun):not(.day-sat) {
+  color: var(--accent);
+}
+
+.cal-day.selected {
+  background-color: transparent;
+  color: var(--on-primary);
+  border-color: transparent;
+}
+
+.cal-day.selected>span {
+  animation: calDayTextPop 0.36s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cal-day.selected.day-sun {
+  color: #ff6b6b;
+}
+
+.cal-day.selected.day-sat {
+  color: #66a3ff;
+}
+
+/* Subtle fold handle at bottom of calendar for Week <-> Month folding */
+.cal-fold-handle {
+  align-self: center;
+  background: transparent;
+  border: none;
+  padding: 2px 14px 0 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-faint);
+  font-size: 10px;
+  font-weight: 600;
+  transition: color 0.15s ease, transform 0.2s ease;
+}
+
+.cal-fold-handle:hover {
+  color: var(--ink);
+  transform: scale(1.06);
+}
+
+.cal-fold-bar {
+  width: 32px;
+  height: 4px;
+  border-radius: var(--rounded-full);
+  background-color: var(--hairline);
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.cal-fold-handle:hover .cal-fold-bar {
+  width: 42px;
+  background-color: var(--text-muted);
+}
+
+/* Heatmap intensity levels based on post count */
+.cal-day.heat-1:not(.selected) {
+  background-color: #ebebeb;
+}
+
+.cal-day.heat-2:not(.selected) {
+  background-color: #dcdcdc;
+}
+
+.cal-day.heat-3:not(.selected) {
+  background-color: #c8c8c8;
+}
+
+.cal-dots {
+  display: flex;
+  gap: 2px;
+  height: 4px;
+}
+
+.cal-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--rounded-full);
+  background-color: var(--ink);
+}
+
+.cal-day.selected .cal-dot {
+  background-color: var(--on-primary);
+}
+
+.cal-dot.bookmark-dot {
+  background-color: var(--accent);
+}
+
+/* Selected Date Filter Bar */
+.date-filter-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--canvas-soft);
+  padding: 8px 12px;
+  border-radius: var(--rounded-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.date-filter-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ==========================================================================
+   6. Piece List Header & Cards (Matches reference photo's list cards)
+   ========================================================================== */
+.list-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.list-count-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.list-filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mini-pill-select {
+  background-color: var(--canvas-soft);
+  color: var(--ink);
+  border: none;
+  border-radius: var(--rounded-full);
+  padding: 4px 10px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+
+.pieces-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Individual Piece Card (조각 카드) */
+.piece-card {
+  background-color: var(--canvas-soft);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--rounded-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s ease, background-color 0.15s ease;
+  animation: pieceStaggerIn 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--stagger-i, 0) * 45ms);
+}
+
+@keyframes calDayTextPop {
+  0% {
+    transform: scale(0.78);
+  }
+
+  55% {
+    transform: scale(1.16);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes calGridFlipPrev {
+  0% {
+    opacity: 0;
+    transform: translateX(-22px) rotateY(14deg) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes calGridFlipNext {
+  0% {
+    opacity: 0;
+    transform: translateX(22px) rotateY(-14deg) scale(0.96);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) rotateY(0deg) scale(1);
+  }
+}
+
+@keyframes calGridFoldMorph {
+  0% {
+    opacity: 0.35;
+    transform: rotateX(-18deg) translateY(-8px) scaleY(0.92);
+    transform-origin: top center;
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0) scaleY(1);
+    transform-origin: top center;
+  }
+}
+
+@keyframes calTitleSlidePrev {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes calTitleSlideNext {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pieceStaggerIn {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.piece-card:hover {
+  border-color: var(--hairline);
+  background-color: #efefef;
+}
+
+.piece-card:active {
+  transform: scale(0.992);
+}
+
+.piece-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.piece-meta-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.piece-cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--ink-soft);
+}
+
+.piece-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.piece-chevron {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.bookmark-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.bookmark-btn:hover {
+  color: var(--ink);
+  transform: scale(1.1);
+}
+
+.bookmark-btn.bookmarked {
+  color: var(--accent);
+}
+
+.piece-title {
+  font-size: 15px;
+  font-weight: 652;
+  line-height: 1.32;
+  color: var(--ink);
+  word-break: keep-all;
+}
+
+.piece-excerpt {
+  font-size: 13px;
+  font-weight: 456;
+  line-height: 1.43;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.piece-quote-source {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding-left: 8px;
+  border-left: 2px solid var(--ink);
+  margin-top: 2px;
+}
+
+/* Attached Images Preview inside Card */
+.piece-images-strip {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.piece-images-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.piece-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--hairline);
+  flex-shrink: 0;
+  background-color: var(--canvas);
+}
+
+.piece-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.piece-tag-chip {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: var(--canvas);
+  padding: 2px 8px;
+  border-radius: var(--rounded-full);
+}
+
+/* Empty State Card (Mobbin ex-empty-state-card) */
+.empty-state-card {
+  background-color: var(--canvas-soft);
+  border-radius: var(--rounded-md);
+  padding: 40px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.empty-state-icon {
+  font-size: 32px;
+}
+
+.empty-state-title {
+  font-size: 16px;
+  font-weight: 652;
+  color: var(--ink);
+}
+
+.empty-state-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 260px;
+}
+
+/* ==========================================================================
+   7. Floating Write CTA Bar at Bottom of Sheet
+   ========================================================================== */
+.floating-bottom-bar {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.floating-date-pill {
+  pointer-events: auto;
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-full);
+  height: 42px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.floating-write-btn {
+  pointer-events: auto;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--rounded-full);
+  height: 44px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.floating-write-btn:hover {
+  background-color: var(--ink-soft);
+}
+
+.floating-write-btn:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   8. Modals (Write/Edit Piece, Piece Detail View, Cloud Sync Settings)
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 20, 20, 0.48);
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 100;
+  padding: 0;
+}
+
+.modal-backdrop.open {
+  display: flex;
+}
+
+@media (min-width: 521px) {
+  .modal-backdrop {
+    align-items: center;
+    padding: 16px;
+  }
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 500px;
+  max-height: 92dvh;
+  background-color: var(--canvas);
+  border-radius: var(--rounded-md) var(--rounded-md) 0 0;
+  padding: 20px 18px calc(var(--safe-bottom) + 20px) 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+@media (min-width: 521px) {
+  .modal-card {
+    border-radius: var(--rounded-md);
+    padding: 24px;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 652;
+  color: var(--ink);
+}
+
+.modal-close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--rounded-full);
+  border: none;
+  background-color: var(--canvas-soft);
+  color: var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.field-input,
+.field-select,
+.field-textarea {
+  width: 100%;
+  background-color: var(--field);
+  color: var(--ink);
+  border: 2px solid transparent;
+  border-radius: var(--rounded-sm);
+  padding: 11px 14px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 456;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.field-input:focus,
+.field-select:focus,
+.field-textarea:focus {
+  border-color: var(--ink);
+  background-color: var(--canvas);
+}
+
+.field-textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Sub-type selector pills inside Write Modal */
+.subtype-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.subtype-option {
+  padding: 6px 12px;
+  border-radius: var(--rounded-full);
+  background-color: var(--field);
+  border: 1px solid transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.subtype-option.selected {
+  background-color: var(--ink);
+  color: var(--on-primary);
+}
+
+/* Image Upload Dropzone & Preview Grid */
+.image-upload-zone {
+  border: 1.5px dashed var(--hairline);
+  background-color: var(--canvas-soft);
+  border-radius: var(--rounded-sm);
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.image-upload-zone:hover,
+.image-upload-zone.dragover {
+  border-color: var(--ink);
+  background-color: var(--field);
+}
+
+.image-upload-zone-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.image-upload-zone-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.upload-preview-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.upload-preview-item {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--hairline);
+}
+
+.upload-preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-remove-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--rounded-full);
+  background-color: rgba(20, 20, 20, 0.75);
+  color: var(--on-primary);
+  border: none;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.modal-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-lg {
+  height: 42px;
+  padding: 0 18px;
+  font-size: 14px;
+}
+
+/* Detail View Content */
+.detail-body-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.detail-images-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.detail-image-full {
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  background-color: var(--canvas-soft);
+  border-radius: var(--rounded-sm);
+  border: 1px solid var(--hairline);
+}
+
+/* Toast Notification (Mobbin ex-toast) */
+.mobbin-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--ink);
+  color: var(--on-primary);
+  padding: 10px 18px;
+  border-radius: var(--rounded-full);
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 200;
+  white-space: nowrap;
+}
+
+.mobbin-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Code snippet box in Cloud Sync Modal */
+.sql-code-box {
+  background-color: var(--field);
+  border-radius: var(--rounded-sm);
+  padding: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  overflow-x: auto;
+  white-space: pre;
+  max-height: 150px;
+}
