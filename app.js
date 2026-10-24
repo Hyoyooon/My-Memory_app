@@ -14,7 +14,10 @@
       id: "calendar",
       name: "달력",
       shortLabel: "달력",
-      icon: "📅",
+      iconDefault: "./icon_set/icon_calendar_default.png",
+      iconActive: "./icon_set/icon_calendar_active.png",
+      svgDefault: "./icon_set_svg/icon_calendar_default.svg",
+      svgActive: "./icon_set_svg/icon_calendar_active.svg",
       tryTitle: "오늘의 핵심 다짐",
       placeholder: "오늘의 주요 일정이나 기억할 일을 적어보세요",
       sproutStages: ["🌱", "🌿", "🌳", "✨"],
@@ -23,7 +26,10 @@
       id: "routine",
       name: "루틴",
       shortLabel: "루틴",
-      icon: "🌿",
+      iconDefault: "./icon_set/icon_routine_default.png",
+      iconActive: "./icon_set/icon_routine_active.png",
+      svgDefault: "./icon_set_svg/icon_routine_default.svg",
+      svgActive: "./icon_set_svg/icon_routine_active.svg",
       tryTitle: "오늘의 루틴",
       placeholder: "새 루틴 메모 추가 (예: 11시 취침)",
       sproutStages: ["🌱", "🌿", "🌳", "🌸"],
@@ -32,7 +38,10 @@
       id: "todo",
       name: "해야할 일",
       shortLabel: "해야할일",
-      icon: "☑️",
+      iconDefault: "./icon_set/icon_todo_default.png",
+      iconActive: "./icon_set/icon_todo_active.png",
+      svgDefault: "./icon_set_svg/icon_todo_default.svg",
+      svgActive: "./icon_set_svg/icon_todo_active.svg",
       tryTitle: "오늘 해야할 일",
       placeholder: "할 일 빠르게 추가하기...",
       sproutStages: ["📝", "⚡", "🎯", "🏆"],
@@ -41,7 +50,10 @@
       id: "info",
       name: "정보",
       shortLabel: "정보",
-      icon: "📌",
+      iconDefault: "./icon_set/icon_information_default.png",
+      iconActive: "./icon_set/icon_information_active.png",
+      svgDefault: "./icon_set_svg/icon_information_default.svg",
+      svgActive: "./icon_set_svg/icon_information_active.svg",
       tryTitle: "수집·활용할 정보",
       placeholder: "기억해둘 링크나 실행할 팁 추가...",
       sproutStages: ["📎", "🗂️", "📚", "💡"],
@@ -50,7 +62,10 @@
       id: "thought",
       name: "생각",
       shortLabel: "생각",
-      icon: "💭",
+      iconDefault: "./icon_set/icon_think_default.png",
+      iconActive: "./icon_set/icon_think_active.png",
+      svgDefault: "./icon_set_svg/icon_think_default.svg",
+      svgActive: "./icon_set_svg/icon_think_active.svg",
       tryTitle: "오늘 붙잡은 생각",
       placeholder: "떠오른 화두나 적용할 점 추가...",
       sproutStages: ["💭", "🧠", "✨", "🌟"],
@@ -59,7 +74,10 @@
       id: "happiness",
       name: "행복",
       shortLabel: "행복",
-      icon: "🍀",
+      iconDefault: "./icon_set/icon_happiness_default_2.png",
+      iconActive: "./icon_set/icon_happiness_active_2.png",
+      svgDefault: "./icon_set_svg/icon_happiness_default.svg",
+      svgActive: "./icon_set_svg/icon_happiness_active.svg",
       tryTitle: "소소한 행복 채우기",
       placeholder: "오늘 나를 기분 좋게 한 일 추가...",
       sproutStages: ["🌱", "🍀", "🌷", "☀️"],
@@ -68,7 +86,10 @@
       id: "transcription",
       name: "필사",
       shortLabel: "필사",
-      icon: "✍️",
+      iconDefault: "./icon_set/icon_transcription_default.png",
+      iconActive: "./icon_set/icon_transcription_active.png",
+      svgDefault: "./icon_set_svg/icon_transcription_default.svg",
+      svgActive: "./icon_set_svg/icon_transcription_active.svg",
       tryTitle: "곱씹어볼 문장",
       placeholder: "기억하고 싶은 문장이나 책 제목...",
       sproutStages: ["✒️", "📖", "🏛️", "✨"],
@@ -77,7 +98,10 @@
       id: "diary",
       name: "일기",
       shortLabel: "일기",
-      icon: "📖",
+      iconDefault: "./icon_set/icon_diary_default.png",
+      iconActive: "./icon_set/icon_diary_active.png",
+      svgDefault: "./icon_set_svg/icon_diary_default.svg",
+      svgActive: "./icon_set_svg/icon_diary_active.svg",
       tryTitle: "오늘 하루 돌아보기",
       placeholder: "오늘 하루의 키워드 한 줄...",
       sproutStages: ["🌙", "🕯️", "📔", "🌌"],
@@ -116,6 +140,11 @@
 
   function getCategoryMeta(catId) {
     return CATEGORIES.find((c) => c.id === catId) || CATEGORIES[1];
+  }
+
+  function getCatIconImgHtml(catMeta, isActive = false, extraClass = "") {
+    const src = isActive ? catMeta.iconActive : catMeta.iconDefault;
+    return `<img src="${src}" class="cat-icon-img ${extraClass}" alt="${catMeta.name}" />`;
   }
 
   function getInitialSeedPieces() {
@@ -219,6 +248,17 @@
       bmBtn.classList.toggle("active", state.bookmarkOnly);
       bmBtn.innerHTML = `🔖 북마크 <span>${bookmarkedCount}</span>`;
     }
+
+    const homeIconImg = document.getElementById("brandHomeIconImg");
+    if (homeIconImg) {
+      const isHomeDefaultState =
+        state.activeCategory === "calendar" &&
+        !state.bookmarkOnly &&
+        !state.searchQuery.trim();
+      homeIconImg.src = isHomeDefaultState
+        ? "./icon_set/icon_home_active.png"
+        : "./icon_set/icon_home_default.png";
+    }
   }
 
   function renderBinderTabs() {
@@ -241,7 +281,11 @@
           title="${cat.name}"
         >
           ${hasBookmarkInCat ? '<span class="tab-count-dot"></span>' : ""}
-          <span class="tab-icon-squircle">${cat.icon}</span>
+          <span class="tab-icon-squircle">${getCatIconImgHtml(
+        cat,
+        isActive,
+        "tab-cat-icon"
+      )}</span>
           <span class="tab-label">${cat.shortLabel}</span>
         </button>
       `;
@@ -320,9 +364,8 @@
     const filteredPieces = getFilteredPieces();
 
     if (bottomDateLabel) {
-      bottomDateLabel.textContent = state.selectedDate
-        ? `📅 ${formatKoreanShortDate(state.selectedDate)}`
-        : `📅 ${formatKoreanShortDate(getTodayStr())}`;
+      const dateStr = formatKoreanShortDate(state.selectedDate || getTodayStr());
+      bottomDateLabel.innerHTML = `<img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" alt="" /> <span>${dateStr}</span>`;
     }
 
     const calendarSectionHtml =
@@ -335,7 +378,8 @@
         ? `
         <div class="date-filter-banner">
           <div class="date-filter-banner-left">
-            <span>📅 선택된 날짜: <strong>${formatKoreanShortDate(
+            <img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" alt="" />
+            <span>선택된 날짜: <strong>${formatKoreanShortDate(
           state.selectedDate
         )}</strong></span>
           </div>
@@ -349,9 +393,9 @@
     const listHeaderHtml = `
       <div class="list-meta-bar">
         <div class="list-count-text">
-          ${activeCatMeta.icon} ${activeCatMeta.name} 조각 <strong>${filteredPieces.length
-      }</strong>장
-          ${state.bookmarkOnly ? " · 🔖 북마크만" : ""}
+          ${getCatIconImgHtml(activeCatMeta, true, "inline-cat-icon")}
+          <span>${activeCatMeta.name} 조각 <strong>${filteredPieces.length
+      }</strong>장${state.bookmarkOnly ? " · 🔖 북마크만" : ""}</span>
         </div>
         <div class="list-filter-controls">
           <select class="mini-pill-select" id="sortOrderSelect" aria-label="정렬 기준">
@@ -369,7 +413,11 @@
           .join("")}</div>`
         : `
         <div class="empty-state-card">
-          <div class="empty-state-icon">${activeCatMeta.icon}</div>
+          <div class="empty-state-icon">${getCatIconImgHtml(
+          activeCatMeta,
+          false,
+          "empty-cat-icon"
+        )}</div>
           <div class="empty-state-title">기록된 조각이 없습니다.</div>
           <div class="empty-state-desc">
             하단의 <strong>+ 기록</strong> 버튼을 눌러 오늘의 생각이나 정보를 사진과 함께 남겨보세요.
@@ -478,14 +526,23 @@
         )
         .join("")}
             </ul>
-            <div class="try-add-inline">
+            <form class="try-add-inline" id="inlineChecklistForm">
               <input
                 type="text"
                 id="inlineChecklistInput"
                 class="try-add-input"
+                enterkeyhint="done"
+                autocomplete="off"
                 placeholder="+ ${catMeta.placeholder}"
               />
-            </div>
+              <button
+                type="submit"
+                id="inlineChecklistSubmitBtn"
+                class="inline-check-submit-btn"
+                title="등록"
+                aria-label="등록"
+              >✓</button>
+            </form>
           </div>
         </div>
       </section>
@@ -589,7 +646,11 @@
                 : ""
               }
                   <div class="sticky-top-row">
-                    <span>🌿 루틴 메모 ${realIdx + 1} / ${pendingNotes.length}</span>
+                    <span class="sticky-top-label">${getCatIconImgHtml(
+                  catMeta,
+                  true,
+                  "inline-cat-icon"
+                )} 루틴 메모 ${realIdx + 1} / ${pendingNotes.length}</span>
                     ${isFront
                 ? `
                       <div class="sticky-nav-arrows">
@@ -640,7 +701,11 @@
       <section class="sticky-pad-section">
         <div class="sticky-pad-header">
           <div class="sticky-pad-title-wrap">
-            <span class="sticky-pad-title">🌿 오늘의 루틴 메모지</span>
+            <span class="sticky-pad-title">${getCatIconImgHtml(
+      catMeta,
+      true,
+      "inline-cat-icon"
+    )} 오늘의 루틴 메모지</span>
             <span class="sticky-pad-badge">남은 메모 ${pendingNotes.length} · 완료 ${doneNotes.length}</span>
           </div>
         </div>
@@ -649,15 +714,24 @@
           ${stackHtml}
         </div>
 
-        <div class="sticky-add-bar">
+        <form class="sticky-add-bar" id="inlineChecklistForm">
           <span style="font-size:13px; color:var(--text-muted);">+</span>
           <input
             type="text"
             id="inlineChecklistInput"
             class="sticky-add-input"
-            placeholder="${catMeta.placeholder} (입력 후 Enter)"
+            enterkeyhint="done"
+            autocomplete="off"
+            placeholder="${catMeta.placeholder}"
           />
-        </div>
+          <button
+            type="submit"
+            id="inlineChecklistSubmitBtn"
+            class="inline-check-submit-btn"
+            title="등록"
+            aria-label="등록"
+          >✓</button>
+        </form>
 
         ${doneChipsHtml}
       </section>
@@ -822,7 +896,11 @@
           <div class="piece-meta-left">
             <span>${shortDate}</span>
             <span>·</span>
-            <span class="piece-cat-badge">${catMeta.icon} ${catMeta.name}</span>
+            <span class="piece-cat-badge">${getCatIconImgHtml(
+      catMeta,
+      false,
+      "badge-cat-icon"
+    )} ${catMeta.name}</span>
           </div>
           <div class="piece-meta-right">
             <span class="piece-chevron">›</span>
@@ -1040,38 +1118,72 @@
       });
     });
 
+    const inlineForm = document.getElementById("inlineChecklistForm");
     const inlineInput = document.getElementById("inlineChecklistInput");
+    const submitBtn = document.getElementById("inlineChecklistSubmitBtn");
+
+    let isSubmittingChecklist = false;
+    const submitInlineChecklist = () => {
+      if (isSubmittingChecklist || !inlineInput) return;
+      const text = inlineInput.value.trim();
+      if (!text) return;
+      isSubmittingChecklist = true;
+
+      const targetCat =
+        state.activeCategory === "calendar" ? "todo" : state.activeCategory;
+      const prevRoutine = state.checklists
+        .filter((c) => c.category === targetCat && !c.done)
+        .slice(-1)[0];
+      const newItem = {
+        id: "chk-" + Date.now(),
+        category: targetCat,
+        date: state.selectedDate || getTodayStr(),
+        text,
+        colorKey: pickRandomStickyColor(prevRoutine?.colorKey),
+        done: false,
+        updatedAt: new Date().toISOString(),
+      };
+      state.checklists.push(newItem);
+      if (targetCat === "routine") {
+        const pendingCount = state.checklists.filter(
+          (c) =>
+            c.category === "routine" &&
+            !c.done &&
+            (!state.selectedDate || c.date === state.selectedDate)
+        ).length;
+        state.routineStickyIndex = Math.max(0, pendingCount - 1);
+      }
+      inlineInput.value = "";
+      syncManager.saveLocalChecklists(state.checklists);
+      syncManager.upsertChecklistToCloud(newItem);
+      renderMainSheet();
+    };
+
+    if (inlineForm) {
+      inlineForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        submitInlineChecklist();
+      });
+    }
+
+    if (submitBtn) {
+      submitBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        submitInlineChecklist();
+      });
+    }
+
     if (inlineInput) {
       inlineInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && inlineInput.value.trim()) {
+        if ((e.key === "Enter" || e.keyCode === 13) && !e.isComposing) {
           e.preventDefault();
-          const targetCat =
-            state.activeCategory === "calendar" ? "todo" : state.activeCategory;
-          const prevRoutine = state.checklists
-            .filter((c) => c.category === targetCat && !c.done)
-            .slice(-1)[0];
-          const newItem = {
-            id: "chk-" + Date.now(),
-            category: targetCat,
-            date: state.selectedDate || getTodayStr(),
-            text: inlineInput.value.trim(),
-            colorKey: pickRandomStickyColor(prevRoutine?.colorKey),
-            done: false,
-            updatedAt: new Date().toISOString(),
-          };
-          state.checklists.push(newItem);
-          if (targetCat === "routine") {
-            const pendingCount = state.checklists.filter(
-              (c) =>
-                c.category === "routine" &&
-                !c.done &&
-                (!state.selectedDate || c.date === state.selectedDate)
-            ).length;
-            state.routineStickyIndex = Math.max(0, pendingCount - 1);
-          }
-          syncManager.saveLocalChecklists(state.checklists);
-          syncManager.upsertChecklistToCloud(newItem);
-          renderMainSheet();
+          submitInlineChecklist();
+        }
+      });
+      inlineInput.addEventListener("keyup", (e) => {
+        if (e.key === "Enter" || e.keyCode === 13) {
+          e.preventDefault();
+          submitInlineChecklist();
         }
       });
     }
@@ -1441,7 +1553,11 @@
         <div class="piece-meta-left" style="font-size:13px;">
           <span>${formatKoreanShortDate(piece.date)}</span>
           <span>·</span>
-          <span class="piece-cat-badge">${catMeta.icon} ${catMeta.name}</span>
+          <span class="piece-cat-badge">${getCatIconImgHtml(
+      catMeta,
+      false,
+      "badge-cat-icon"
+    )} ${catMeta.name}</span>
         </div>
         <button
           type="button"
@@ -1559,7 +1675,7 @@
     const catSelect = document.getElementById("pieceCategoryInput");
     if (catSelect) {
       catSelect.innerHTML = CATEGORIES.filter((c) => c.id !== "calendar")
-        .map((c) => `<option value="${c.id}">${c.icon} ${c.name}</option>`)
+        .map((c) => `<option value="${c.id}">${c.name}</option>`)
         .join("");
     }
 

@@ -9,12 +9,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <title>My Memory — 조각 모음</title>
+  <title>My Memory—조각 모음</title>
 
   <!-- PWA Manifest & Icon -->
   <link rel="manifest" href="./manifest.json" />
-  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
-  <link rel="apple-touch-icon" href="./icon.svg" />
+  <link rel="icon" type="image/png" sizes="512x512" href="./icon_set/icon_logo.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon_set/icon_logo_192.png" />
+  <link rel="icon" type="image/png" sizes="1024x1024" href="./icon_set/icon_logo_large.png" />
+  <link rel="apple-touch-icon" sizes="512x512" href="./icon_set/icon_logo.png" />
 
   <!-- Stylesheet (Uses Smartphone Native System Font) -->
   <link rel="stylesheet" href="./styles.css" />
@@ -29,10 +31,7 @@
       <!-- 1. Top Header Bar (Matches reference photo + Mobbin stadium pills) -->
       <header class="top-header">
         <div class="brand-lockup" id="brandHomeBtn" title="필터 초기화 및 홈으로">
-          <svg class="brand-home-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z" />
-          </svg>
+          <img src="./icon_set/icon_home_active.png" id="brandHomeIconImg" class="brand-home-icon" alt="홈" />
           <span class="brand-title">My Memory</span>
           <span class="brand-chevron">⌄</span>
           <span class="user-badge" title="나의 기록장">나</span>
@@ -69,7 +68,10 @@
           <!-- Floating Bottom Bar: Date Indicator + Quick Write CTA -->
           <div class="floating-bottom-bar">
             <button type="button" class="floating-date-pill" id="floatingDatePill" title="달력에서 날짜별로 모아보기">
-              <span id="floatingDateText">📅 전체 날짜</span>
+              <span id="floatingDateText" class="floating-date-label">
+                <img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" alt="" />
+                <span>전체 날짜</span>
+              </span>
             </button>
             <button type="button" class="floating-write-btn" id="floatingWriteBtn">
               <span>✎</span>
@@ -144,7 +146,7 @@
 
         <div class="modal-footer">
           <button type="button" class="pill-btn btn-lg" id="cancelWriteModalBtn">취소</button>
-          <button type="submit" class="pill-btn pill-btn-primary btn-lg">저장하기</button>
+          <button type="submit" class="pill-btn pill-btn-primary btn-lg">저장</button>
         </div>
       </form>
     </div>

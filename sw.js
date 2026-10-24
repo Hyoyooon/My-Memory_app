@@ -1,4 +1,4 @@
-const CACHE_NAME = "my-memory-pwa-v4";
+const CACHE_NAME = "my-memory-pwa-v8";
 const ASSETS = [
   "./",
   "./index.html",
@@ -6,7 +6,29 @@ const ASSETS = [
   "./app.js",
   "./cloud-sync.js",
   "./manifest.json",
-  "./icon.svg"
+  "./icon.svg",
+  "./icon_set/icon_logo.png",
+  "./icon_set/icon_logo_192.png",
+  "./icon_set/icon_logo_large.png",
+  "./icon_set/icon_logo_small.png",
+  "./icon_set/icon_home_default.png",
+  "./icon_set/icon_home_active.png",
+  "./icon_set/icon_calendar_default.png",
+  "./icon_set/icon_calendar_active.png",
+  "./icon_set/icon_routine_default.png",
+  "./icon_set/icon_routine_active.png",
+  "./icon_set/icon_todo_default.png",
+  "./icon_set/icon_todo_active.png",
+  "./icon_set/icon_information_default.png",
+  "./icon_set/icon_information_active.png",
+  "./icon_set/icon_think_default.png",
+  "./icon_set/icon_think_active.png",
+  "./icon_set/icon_happiness_default_2.png",
+  "./icon_set/icon_happiness_active_2.png",
+  "./icon_set/icon_transcription_default.png",
+  "./icon_set/icon_transcription_active.png",
+  "./icon_set/icon_diary_default.png",
+  "./icon_set/icon_diary_active.png"
 ];
 
 self.addEventListener("install", (event) => {
