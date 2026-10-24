@@ -144,7 +144,18 @@
 
   function getCatIconImgHtml(catMeta, isActive = false, extraClass = "") {
     const src = isActive ? catMeta.iconActive : catMeta.iconDefault;
-    return `<img src="${src}" class="cat-icon-img ${extraClass}" alt="${catMeta.name}" />`;
+    let sizePx = 16;
+    let extraStyle = "";
+    if (extraClass.includes("tab-cat-icon")) {
+      sizePx = 18;
+      extraStyle = `opacity:${isActive ? "1" : "0.68"};`;
+    } else if (extraClass.includes("badge-cat-icon")) {
+      sizePx = 14;
+    } else if (extraClass.includes("empty-cat-icon")) {
+      sizePx = 34;
+      extraStyle = "opacity:0.45;";
+    }
+    return `<img src="${src}" width="${sizePx}" height="${sizePx}" style="width:${sizePx}px;height:${sizePx}px;object-fit:contain;vertical-align:middle;flex-shrink:0;display:inline-block;${extraStyle}" class="cat-icon-img ${extraClass}" alt="${catMeta.name}" />`;
   }
 
   function getInitialSeedPieces() {
@@ -281,7 +292,7 @@
           title="${cat.name}"
         >
           ${hasBookmarkInCat ? '<span class="tab-count-dot"></span>' : ""}
-          <span class="tab-icon-squircle">${getCatIconImgHtml(
+          <span class="tab-icon-squircle" style="background:transparent;">${getCatIconImgHtml(
         cat,
         isActive,
         "tab-cat-icon"
@@ -365,7 +376,7 @@
 
     if (bottomDateLabel) {
       const dateStr = formatKoreanShortDate(state.selectedDate || getTodayStr());
-      bottomDateLabel.innerHTML = `<img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" alt="" /> <span>${dateStr}</span>`;
+      bottomDateLabel.innerHTML = `<img src="./icon_set/icon_calendar_default.png" width="16" height="16" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;flex-shrink:0;" class="cat-icon-img inline-cat-icon" alt="" /> <span>${dateStr}</span>`;
     }
 
     const calendarSectionHtml =
@@ -377,8 +388,8 @@
       state.selectedDate && state.activeCategory !== "calendar"
         ? `
         <div class="date-filter-banner">
-          <div class="date-filter-banner-left">
-            <img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" alt="" />
+          <div class="date-filter-banner-left" style="display:inline-flex;align-items:center;gap:6px;">
+            <img src="./icon_set/icon_calendar_default.png" width="16" height="16" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;flex-shrink:0;" class="cat-icon-img inline-cat-icon" alt="" />
             <span>선택된 날짜: <strong>${formatKoreanShortDate(
           state.selectedDate
         )}</strong></span>
@@ -392,7 +403,7 @@
 
     const listHeaderHtml = `
       <div class="list-meta-bar">
-        <div class="list-count-text">
+        <div class="list-count-text" style="display:inline-flex;align-items:center;gap:6px;">
           ${getCatIconImgHtml(activeCatMeta, true, "inline-cat-icon")}
           <span>${activeCatMeta.name} 조각 <strong>${filteredPieces.length
       }</strong>장${state.bookmarkOnly ? " · 🔖 북마크만" : ""}</span>
@@ -539,6 +550,7 @@
                 type="submit"
                 id="inlineChecklistSubmitBtn"
                 class="inline-check-submit-btn"
+                style="width:24px;height:24px;border-radius:9999px;border:1px solid var(--hairline);background-color:var(--canvas);color:var(--ink);font-size:12px;font-weight:652;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;"
                 title="등록"
                 aria-label="등록"
               >✓</button>
@@ -728,6 +740,7 @@
             type="submit"
             id="inlineChecklistSubmitBtn"
             class="inline-check-submit-btn"
+            style="width:24px;height:24px;border-radius:9999px;border:1px solid var(--hairline);background-color:var(--canvas);color:var(--ink);font-size:12px;font-weight:652;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;"
             title="등록"
             aria-label="등록"
           >✓</button>

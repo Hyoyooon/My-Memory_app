@@ -19,7 +19,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="./icon_set/icon_logo.png" />
 
   <!-- Stylesheet (Uses Smartphone Native System Font) -->
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=9" />
 
   <!-- Supabase JS Client for Real-time Multi-device Cloud Sync -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -31,7 +31,7 @@
       <!-- 1. Top Header Bar (Matches reference photo + Mobbin stadium pills) -->
       <header class="top-header">
         <div class="brand-lockup" id="brandHomeBtn" title="필터 초기화 및 홈으로">
-          <img src="./icon_set/icon_home_active.png" id="brandHomeIconImg" class="brand-home-icon" alt="홈" />
+          <img src="./icon_set/icon_home_active.png" id="brandHomeIconImg" class="brand-home-icon" width="20" height="20" style="width:20px;height:20px;object-fit:contain;flex-shrink:0;" alt="홈" />
           <span class="brand-title">My Memory</span>
           <span class="brand-chevron">⌄</span>
           <span class="user-badge" title="나의 기록장">나</span>
@@ -68,8 +68,8 @@
           <!-- Floating Bottom Bar: Date Indicator + Quick Write CTA -->
           <div class="floating-bottom-bar">
             <button type="button" class="floating-date-pill" id="floatingDatePill" title="달력에서 날짜별로 모아보기">
-              <span id="floatingDateText" class="floating-date-label">
-                <img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" alt="" />
+              <span id="floatingDateText" class="floating-date-label" style="display:inline-flex;align-items:center;gap:6px;">
+                <img src="./icon_set/icon_calendar_default.png" class="cat-icon-img inline-cat-icon" width="16" height="16" style="width:16px;height:16px;object-fit:contain;vertical-align:middle;flex-shrink:0;" alt="" />
                 <span>전체 날짜</span>
               </span>
             </button>
@@ -242,8 +242,8 @@
   <div class="mobbin-toast" id="mobbinToast" role="status" aria-live="polite"></div>
 
   <!-- Main App Scripts (Compatible with both direct file:// and https://) -->
-  <script src="./cloud-sync.js"></script>
-  <script src="./app.js"></script>
+  <script src="./cloud-sync.js?v=9"></script>
+  <script src="./app.js?v=9"></script>
 
   <!-- Register Service Worker for Android PWA Offline & Home Screen Install -->
   <script>
