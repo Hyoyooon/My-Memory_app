@@ -1854,6 +1854,80 @@ body {
   background-color: var(--canvas);
 }
 
+/* Custom Category Dropdown with Default Icons in Write Modal */
+.custom-cat-select-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.custom-cat-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.custom-cat-trigger-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-weight: 600;
+}
+
+.custom-cat-chevron {
+  font-size: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.custom-cat-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background-color: var(--canvas);
+  border: 1px solid var(--hairline);
+  border-radius: var(--rounded-sm);
+  padding: 4px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 60;
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.custom-cat-menu.open {
+  display: flex;
+}
+
+.custom-cat-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.12s ease;
+}
+
+.custom-cat-option:hover,
+.custom-cat-option.selected {
+  background-color: var(--field);
+  font-weight: 652;
+}
+
 .field-textarea {
   min-height: 120px;
   resize: vertical;

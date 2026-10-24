@@ -19,7 +19,7 @@
   <link rel="apple-touch-icon" sizes="512x512" href="./icon_set/icon_logo.png" />
 
   <!-- Stylesheet (Uses Smartphone Native System Font) -->
-  <link rel="stylesheet" href="./styles.css?v=9" />
+  <link rel="stylesheet" href="./styles.css?v=10" />
 
   <!-- Supabase JS Client for Real-time Multi-device Cloud Sync -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -95,9 +95,22 @@
 
       <form id="writePieceForm" style="display:flex; flex-direction:column; gap:12px;">
         <div class="form-row-2">
-          <div class="form-group">
-            <label class="form-label" for="pieceCategoryInput">카테고리</label>
-            <select id="pieceCategoryInput" class="field-select"></select>
+          <div class="form-group" style="position:relative;">
+            <label class="form-label" for="pieceCategoryTriggerBtn">카테고리</label>
+            <input type="hidden" id="pieceCategoryInput" value="routine" />
+            <div class="custom-cat-select-wrap" id="customCatSelectWrap">
+              <button
+                type="button"
+                class="field-select custom-cat-trigger"
+                id="pieceCategoryTriggerBtn"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+              >
+                <span class="custom-cat-trigger-left" id="pieceCategoryTriggerLabel"></span>
+                <span class="custom-cat-chevron">▾</span>
+              </button>
+              <div class="custom-cat-menu" id="pieceCategoryMenu" role="listbox"></div>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label" for="pieceDateInput">날짜</label>
@@ -242,8 +255,8 @@
   <div class="mobbin-toast" id="mobbinToast" role="status" aria-live="polite"></div>
 
   <!-- Main App Scripts (Compatible with both direct file:// and https://) -->
-  <script src="./cloud-sync.js?v=9"></script>
-  <script src="./app.js?v=9"></script>
+  <script src="./cloud-sync.js?v=10"></script>
+  <script src="./app.js?v=10"></script>
 
   <!-- Register Service Worker for Android PWA Offline & Home Screen Install -->
   <script>

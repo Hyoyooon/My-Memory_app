@@ -1345,10 +1345,35 @@
   // Write / Edit Piece Modal + Image Upload Processing
   // ==========================================================================
 
+  function setModalCategorySelection(catId) {
+    const validCatId =
+      catId && catId !== "calendar" ? catId : "routine";
+    const catMeta = getCategoryMeta(validCatId);
+    const catInput = document.getElementById("pieceCategoryInput");
+    const triggerLabel = document.getElementById("pieceCategoryTriggerLabel");
+    const menu = document.getElementById("pieceCategoryMenu");
+
+    if (catInput) catInput.value = validCatId;
+    if (triggerLabel) {
+      triggerLabel.innerHTML = `${getCatIconImgHtml(
+        catMeta,
+        false,
+        "inline-cat-icon"
+      )} <span>${catMeta.name}</span>`;
+    }
+    if (menu) {
+      menu.querySelectorAll(".custom-cat-option").forEach((opt) => {
+        opt.classList.toggle(
+          "selected",
+          opt.getAttribute("data-cat-opt") === validCatId
+        );
+      });
+    }
+  }
+
   function openWriteModal(editPiece) {
     const modal = document.getElementById("writeModalBackdrop");
     const titleEl = document.getElementById("writeModalTitle");
-    const catSelect = document.getElementById("pieceCategoryInput");
     const dateInput = document.getElementById("pieceDateInput");
     const titleInput = document.getElementById("pieceTitleInput");
     const contentInput = document.getElementById("pieceContentInput");
@@ -1358,10 +1383,15 @@
 
     if (!modal) return;
 
+    document.getElementById("pieceCategoryMenu")?.classList.remove("open");
+    document
+      .getElementById("pieceCategoryTriggerBtn")
+      ?.setAttribute("aria-expanded", "false");
+
     if (editPiece) {
       state.editingPieceId = editPiece.id;
       titleEl.textContent = "조각 수정하기";
-      catSelect.value = editPiece.category;
+      setModalCategorySelection(editPiece.category);
       dateInput.value = editPiece.date || getTodayStr();
       titleInput.value = editPiece.title || "";
       contentInput.value = editPiece.content || "";
@@ -1372,8 +1402,9 @@
     } else {
       state.editingPieceId = null;
       titleEl.textContent = "새로운 조각 기록";
-      catSelect.value =
-        state.activeCategory === "calendar" ? "routine" : state.activeCategory;
+      setModalCategorySelection(
+        state.activeCategory === "calendar" ? "routine" : state.activeCategory
+      );
       dateInput.value = state.selectedDate || getTodayStr();
       titleInput.value = "";
       contentInput.value = "";
@@ -1392,6 +1423,10 @@
 
   function closeWriteModal() {
     const modal = document.getElementById("writeModalBackdrop");
+    document.getElementById("pieceCategoryMenu")?.classList.remove("open");
+    document
+      .getElementById("pieceCategoryTriggerBtn")
+      ?.setAttribute("aria-expanded", "false");
     if (modal) modal.classList.remove("open");
   }
 
@@ -1685,12 +1720,54 @@
   function initApp() {
     loadInitialData();
 
-    const catSelect = document.getElementById("pieceCategoryInput");
-    if (catSelect) {
-      catSelect.innerHTML = CATEGORIES.filter((c) => c.id !== "calendar")
-        .map((c) => `<option value="${c.id}">${c.name}</option>`)
+    const catMenu = document.getElementById("pieceCategoryMenu");
+    const catTriggerBtn = document.getElementById("pieceCategoryTriggerBtn");
+    const catWrap = document.getElementById("customCatSelectWrap");
+    if (catMenu) {
+      catMenu.innerHTML = CATEGORIES.filter((c) => c.id !== "calendar")
+        .map(
+          (c) => `
+          <button
+            type="button"
+            class="custom-cat-option"
+            data-cat-opt="${c.id}"
+            role="option"
+            style="display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border:none;background:transparent;font-family:var(--font-sans);font-size:14px;color:var(--ink);cursor:pointer;text-align:left;"
+          >
+            ${getCatIconImgHtml(c, false, "inline-cat-icon")}
+            <span>${c.name}</span>
+          </button>
+        `
+        )
         .join("");
+
+      catMenu.querySelectorAll(".custom-cat-option").forEach((optBtn) => {
+        optBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const chosenCat = optBtn.getAttribute("data-cat-opt");
+          if (chosenCat) {
+            setModalCategorySelection(chosenCat);
+          }
+          catMenu.classList.remove("open");
+          catTriggerBtn?.setAttribute("aria-expanded", "false");
+        });
+      });
     }
+
+    setModalCategorySelection("routine");
+
+    catTriggerBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isOpen = catMenu?.classList.toggle("open");
+      catTriggerBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (catWrap && !catWrap.contains(e.target)) {
+        catMenu?.classList.remove("open");
+        catTriggerBtn?.setAttribute("aria-expanded", "false");
+      }
+    });
 
     renderAll();
     syncManager.initCloud();
