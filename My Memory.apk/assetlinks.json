@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.hyoyooon.twa",
+        "sha256_cert_fingerprints": ["F5:59:6A:71:85:78:45:99:FF:3F:FD:7A:1C:D8:8A:59:AB:DF:46:85:EA:D1:FA:C7:9C:26:17:97:72:E3:04:6E"]
+      }
+    }]

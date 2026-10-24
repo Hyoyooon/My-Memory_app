@@ -1,0 +1,10 @@
+Keep this file and signing.keystore in a safe place. You'll need these files if you want to upload future versions of your PWA to the Google Play Store.
+
+Key store file: signing.keystore
+Key store password: aXPWuXW_e_Dm
+Key alias: my-key-alias
+Key password: aXPWuXW_e_Dm
+Signer's full name: My Memory Admin
+Signer's organization: My Memory
+Signer's organizational unit: Engineering
+Signer's country code: US
